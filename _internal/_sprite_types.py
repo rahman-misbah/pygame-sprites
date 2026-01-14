@@ -15,14 +15,16 @@ type SpriteIndexType = Union[
     str
 ]
 
+type GameSurfaceType = pygame.Surface
+
 type SpriteFetchType = Union[
     list[pygame.Surface|None],
-    pygame.Surface
+    GameSurfaceType
 ]
 
 type ExportableSpriteType = Union[
     SpriteIndexType,
-    pygame.Surface
+    GameSurfaceType
 ]
 
 type AlphaType = Union[
@@ -33,6 +35,7 @@ type AlphaType = Union[
 # TypeHint objects for specified types
 NonStringSpriteIndex = TypeHint(cast(Any, NonStringSpriteIndexType))
 SpriteIndex = TypeHint(cast(Any, SpriteIndexType))
+GameSurface = TypeHint(cast(Any, GameSurfaceType))
 SpriteFetch = TypeHint(cast(Any, SpriteFetchType))
 ExportableSprite = TypeHint(cast(Any, ExportableSpriteType))
 Alpha = TypeHint(cast(Any, AlphaType))

@@ -1,0 +1,38 @@
+from typing import Union, Any, cast
+from beartype.door import TypeHint
+import pygame
+
+type NonStringSpriteIndexType = Union[
+    int,
+    tuple[int, int],
+    tuple[int, slice],
+    tuple[slice, int],
+    tuple[slice, slice]
+]
+
+type SpriteIndexType = Union[
+    NonStringSpriteIndexType,
+    str
+]
+
+type SpriteFetchType = Union[
+    list[pygame.Surface|None],
+    pygame.Surface
+]
+
+type ExportableSpriteType = Union[
+    SpriteIndexType,
+    pygame.Surface
+]
+
+type AlphaType = Union[
+    tuple[int, int],
+    tuple[int, int, int]
+]
+
+# TypeHint objects for specified types
+NonStringSpriteIndex = TypeHint(cast(Any, NonStringSpriteIndexType))
+SpriteIndex = TypeHint(cast(Any, SpriteIndexType))
+SpriteFetch = TypeHint(cast(Any, SpriteFetchType))
+ExportableSprite = TypeHint(cast(Any, ExportableSpriteType))
+Alpha = TypeHint(cast(Any, AlphaType))

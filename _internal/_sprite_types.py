@@ -32,6 +32,8 @@ type AlphaType = Union[
     tuple[int, int, int]
 ]
 
+type RGB = tuple[int, int, int]
+
 # TypeHint objects for specified types
 NonStringSpriteIndex = TypeHint(cast(Any, NonStringSpriteIndexType))
 SpriteIndex = TypeHint(cast(Any, SpriteIndexType))

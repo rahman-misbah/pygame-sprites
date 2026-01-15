@@ -9,7 +9,7 @@ import _internal._sprite_types as types
 from beartype import beartype
 
 
-class Sprite:
+class SpriteSheet:
     @beartype
     def __init__(
             self, 

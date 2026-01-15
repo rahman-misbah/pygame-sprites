@@ -56,7 +56,7 @@ type SpriteExtraction = tuple[
 
 # =============== TYPE CHECKERS ===============  #
 
-def is_int_pair(value: Any) -> TypeIs[tuple[int, int]]:
+def is_coordinate(value: Any) -> TypeIs[Coordinate]:
     if not isinstance(value, tuple):
         return False
     

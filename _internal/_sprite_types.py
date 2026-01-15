@@ -37,6 +37,13 @@ type SpriteIndex = Union[
     NonStringSpriteIndex
 ]
 
+type NamedGroup = Union[
+    SpriteGrid,
+    SpriteGridRow
+]
+
+type NamedGroupMap = dict[str, NamedGroup]
+
 type SpriteFetch = Union[
     SpriteGrid,
     SpriteGridRow,

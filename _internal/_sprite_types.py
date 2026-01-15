@@ -1,7 +1,7 @@
 from typing import Union
 import pygame
 
-type NonStringSpriteIndexType = Union[
+type NonStringSpriteIndex = Union[
     int,
     tuple[int, int],
     tuple[int, slice],
@@ -9,36 +9,34 @@ type NonStringSpriteIndexType = Union[
     tuple[slice, slice]
 ]
 
-type SpriteIndexType = Union[
-    NonStringSpriteIndexType,
+type SpriteIndex = Union[
+    NonStringSpriteIndex,
     str
 ]
 
-type GameSurfaceType = pygame.Surface
-
-type SpriteFetchType = Union[
+type SpriteFetch = Union[
     list[pygame.Surface|None],
-    GameSurfaceType
+    pygame.Surface
 ]
 
-type ExportableSpriteType = Union[
-    SpriteIndexType,
-    GameSurfaceType
+type ExportableSprite = Union[
+    SpriteIndex,
+    pygame.Surface
 ]
 
-type AlphaType = Union[
+type Alpha = Union[
     tuple[int, int],
     tuple[int, int, int]
 ]
 
-type RGBType = tuple[int, int, int]
+type RGB = tuple[int, int, int]
 
-type SpriteGridRowType = list[GameSurfaceType | None]
+type SpriteGridRow = list[pygame.Surface | None]
 
-type SpriteGridType = list[SpriteGridRowType]
+type SpriteGrid = list[SpriteGridRow]
 
-type SpriteExtractionType = tuple[
-    SpriteGridType,
+type SpriteExtraction = tuple[
+    SpriteGrid,
     tuple[int, int],
     int
 ]

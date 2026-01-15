@@ -3,6 +3,17 @@ import pygame
 
 # =============== TYPE ALIASES ===============  #
 
+type RGB = tuple[int, int, int]
+
+type SpriteGridRow = list[pygame.Surface | None]
+
+type SpriteGrid = list[SpriteGridRow]
+
+type Alpha = Union[
+    tuple[int, int],
+    RGB
+]
+
 type NonStringSpriteIndex = Union[
     int,
     tuple[int, int],
@@ -26,17 +37,6 @@ type ExportableSprite = Union[
     SpriteIndex,
     pygame.Surface
 ]
-
-type Alpha = Union[
-    tuple[int, int],
-    RGB
-]
-
-type RGB = tuple[int, int, int]
-
-type SpriteGridRow = list[pygame.Surface | None]
-
-type SpriteGrid = list[SpriteGridRow]
 
 type SpriteExtraction = tuple[
     SpriteGrid,

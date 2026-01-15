@@ -26,7 +26,7 @@ type ExportableSprite = Union[
 
 type Alpha = Union[
     tuple[int, int],
-    tuple[int, int, int]
+    RGB
 ]
 
 type RGB = tuple[int, int, int]

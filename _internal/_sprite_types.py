@@ -1,5 +1,7 @@
-from typing import Union
+from typing import Union, Any, TypeIs, cast
 import pygame
+
+# =============== TYPE ALIASES ===============  #
 
 type NonStringSpriteIndex = Union[
     int,
@@ -40,3 +42,16 @@ type SpriteExtraction = tuple[
     tuple[int, int],
     int
 ]
+
+# =============== TYPE CHECKERS ===============  #
+
+def is_int_pair(value: Any) -> TypeIs[tuple[int, int]]:
+    if not isinstance(value, tuple):
+        return False
+    
+    safe_tuple = cast(tuple[Any, ...], value)
+
+    if len(safe_tuple) != 2:
+        return False
+    
+    return all(isinstance(i, int) for i in safe_tuple)

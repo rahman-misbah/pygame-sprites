@@ -67,7 +67,7 @@ def is_coordinate(value: Any) -> TypeIs[Coordinate]:
     
     return all(isinstance(i, int) for i in safe_tuple)
 
-def is_slice_pair(value: Any) -> TypeIs[tuple[slice, slice]]:
+def is_region(value: Any) -> TypeIs[Region]:
     if not isinstance(value, tuple):
         return False
     
@@ -99,3 +99,5 @@ def is_column_slice(value: Any) -> TypeIs[tuple[slice, int]]:
         return False
     
     return isinstance(slice_tuple[0], slice) and isinstance(slice_tuple[1], int)
+
+def is_sprite_grid_row(value: Any) -> TypeIs[]

@@ -9,26 +9,36 @@ type SpriteGridRow = list[pygame.Surface | None]
 
 type SpriteGrid = list[SpriteGridRow]
 
+type Coordinate = tuple[int, int]
+
+type Size = tuple[int, int]
+
+type RowSlice = tuple[int, slice]
+
+type ColumnSlice = tuple[slice, int]
+
+type Region = tuple[slice, slice]
+
 type Alpha = Union[
-    tuple[int, int],
+    Coordinate,
     RGB
 ]
 
 type NonStringSpriteIndex = Union[
-    int,
-    tuple[int, int],
-    tuple[int, slice],
-    tuple[slice, int],
-    tuple[slice, slice]
+    int,        # Row Index
+    Coordinate,
+    RowSlice,
+    ColumnSlice,
+    Region
 ]
 
 type SpriteIndex = Union[
-    NonStringSpriteIndex,
-    str
+    str,        # Named Group
+    NonStringSpriteIndex
 ]
 
 type SpriteFetch = Union[
-    list[SpriteGridRow],
+    SpriteGrid,
     SpriteGridRow,
     pygame.Surface
 ]
@@ -39,9 +49,9 @@ type ExportableSprite = Union[
 ]
 
 type SpriteExtraction = tuple[
+    int,        # Sprite Count
     SpriteGrid,
-    tuple[int, int],
-    int
+    Size
 ]
 
 # =============== TYPE CHECKERS ===============  #

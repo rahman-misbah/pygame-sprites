@@ -34,7 +34,9 @@ type AlphaType = Union[
 
 type RGBType = tuple[int, int, int]
 
-type SpriteGridType = list[list[GameSurfaceType | None]]
+type SpriteGridRowType = list[GameSurfaceType | None]
+
+type SpriteGridType = list[SpriteGridRowType]
 
 type SpriteExtractionType = tuple[
     SpriteGridType,

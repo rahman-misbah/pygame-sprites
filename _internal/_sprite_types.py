@@ -78,7 +78,7 @@ def is_region(value: Any) -> TypeIs[Region]:
     
     return isinstance(slice_tuple[0], slice) and isinstance(slice_tuple[1], slice)
 
-def is_row_slice(value: Any) -> TypeIs[tuple[int, slice]]:
+def is_row_slice(value: Any) -> TypeIs[RowSlice]:
     if not isinstance(value, tuple):
         return False
     
@@ -89,7 +89,7 @@ def is_row_slice(value: Any) -> TypeIs[tuple[int, slice]]:
     
     return isinstance(slice_tuple[0], int) and isinstance(slice_tuple[1], slice)
 
-def is_column_slice(value: Any) -> TypeIs[tuple[slice, int]]:
+def is_column_slice(value: Any) -> TypeIs[ColumnSlice]:
     if not isinstance(value, tuple):
         return False
     
@@ -99,5 +99,3 @@ def is_column_slice(value: Any) -> TypeIs[tuple[slice, int]]:
         return False
     
     return isinstance(slice_tuple[0], slice) and isinstance(slice_tuple[1], int)
-
-def is_sprite_grid_row(value: Any) -> TypeIs[]

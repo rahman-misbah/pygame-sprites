@@ -66,3 +66,14 @@ def is_row_slice(value: Any) -> TypeIs[tuple[int, slice]]:
         return False
     
     return isinstance(slice_tuple[0], int) and isinstance(slice_tuple[1], slice)
+
+def is_column_slice(value: Any) -> TypeIs[tuple[slice, int]]:
+    if not isinstance(value, tuple):
+        return False
+    
+    slice_tuple = cast(tuple[Any, ...], value)
+    
+    if len(slice_tuple) != 2:
+        return False
+    
+    return isinstance(slice_tuple[0], slice) and isinstance(slice_tuple[1], int)

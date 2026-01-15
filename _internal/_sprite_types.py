@@ -36,7 +36,7 @@ type RGBType = tuple[int, int, int]
 
 type SpriteExtractionType = tuple[
     list[list[GameSurfaceType | None]],
-    list[int],
+    tuple[int, int],
     int
 ]
 

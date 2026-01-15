@@ -50,8 +50,8 @@ type ExportableSprite = Union[
 
 type SpriteExtraction = tuple[
     int,        # Sprite Count
-    SpriteGrid,
-    Size
+    Size,
+    SpriteGrid
 ]
 
 # =============== TYPE CHECKERS ===============  #

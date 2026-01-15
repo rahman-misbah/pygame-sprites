@@ -99,3 +99,11 @@ def is_column_slice(value: Any) -> TypeIs[ColumnSlice]:
         return False
     
     return isinstance(slice_tuple[0], slice) and isinstance(slice_tuple[1], int)
+
+def is_sprite_grid_row(value: Any) -> TypeIs[SpriteGridRow]:
+    if not isinstance(value, list):
+        return False
+    
+    row = cast(list[Any], value)
+
+    return all(isinstance(i, pygame.Surface) or i is None for i in row)

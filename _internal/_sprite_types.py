@@ -17,7 +17,8 @@ type SpriteIndex = Union[
 ]
 
 type SpriteFetch = Union[
-    list[pygame.Surface|None],
+    list[SpriteGridRow],
+    SpriteGridRow,
     pygame.Surface
 ]
 

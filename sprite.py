@@ -188,10 +188,10 @@ class Sprite:
         
         # Alpha provided using (r, g, b) value
         else:
-            self.__spritesheet.set_colorkey(self.__alpha)
+            self.__spritesheet.set_colorkey(alpha)
 
             if self.__verbose:
-                print(f"Set colorkey to color: {self.__alpha}")
+                print(f"Set colorkey to color: {alpha}")
             
             return alpha
     

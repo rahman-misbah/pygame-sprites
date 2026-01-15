@@ -14,7 +14,7 @@ class Sprite:
     def __init__(
             self, 
             sheet_path : str, 
-            tile_size : tuple[int, int], 
+            tile_size : types.Size, 
             padding : int = 0, 
             sheet_margin : int = 0, 
             alpha : Optional[types.Alpha] = None, 
@@ -33,8 +33,8 @@ class Sprite:
 
         self.__spritesheet = self.__load_spritesheet()
         self.__alpha : Optional[types.RGB] = self.__set_alpha(alpha)
-        self.__sprites, self.__grid_dim, self.__sprite_count = self.__extract_sprites()
-        self.__map = dict()
+        self.__sprite_count, self.__grid_dim, self.__sprites = self.__extract_sprites()
+        self.__map : types.NamedGroupMap = dict()
     
     
     #   =============== PUBLIC INTERFACE ===============  #
@@ -63,18 +63,23 @@ class Sprite:
         export_count = 0
 
         if sprite is None:
-            return
+            pass
         
         elif isinstance(sprite, pygame.Surface):
-            assert isinstance(sprite, pygame.Surface)
             pygame.image.save(sprite, f"{path}/{name}.png")
             export_count += 1
 
         else:
             tiles = self[sprite]
-            for i in tiles:
-                pygame.image.save(i, f"{path}/{name}{export_count}.png")
+
+            if isinstance(tiles, pygame.Surface):
+                pygame.image.save(tiles, f"{path}/{name}.png")
                 export_count += 1
+            
+            elif True:
+                pass
+        
+
 
         if self.__verbose:
             print(f"Exported {export_count} images to directory '{path}'")
@@ -96,7 +101,7 @@ class Sprite:
             # Fetch by key logic
             pass
 
-        if types.is_int_pair(pos):
+        if types.is_coordinate(pos):
             try:
                 return self.__sprites[pos[0]][pos[1]]
             except IndexError:
@@ -118,7 +123,7 @@ class Sprite:
             except:
                 raise IndexError(f"Invalid column index {pos[1]}")
 
-        if is_bearable(pos, tuple[slice, slice]):
+        if types.is_region(pos):
             rows = self.__sprites[pos[0]]
             result = [row[pos[1]] for row in rows]
             
@@ -164,31 +169,31 @@ class Sprite:
         
             return None
         
-        else:       # Uses provided alpha
-            self.__spritesheet = self.__spritesheet.convert()
+        # Uses provided alpha
+        self.__spritesheet = self.__spritesheet.convert()
 
-            # Alpha provided from spritesheet pixel
-            if len(alpha) == 2:
-                try:
-                    bg_color = self.__spritesheet.get_at(alpha)
-                    self.__spritesheet.set_colorkey(bg_color)
-
-                    if self.__verbose:
-                        print(f"Set colorkey from pixel {alpha}: {bg_color}")
-                    
-                    return (bg_color.r, bg_color.g, bg_color.b)
-                
-                except IndexError:
-                    raise ValueError(f"Invalid alpha coordinates {self.__alpha}")
-            
-            # Alpha provided using (r, g, b) value
-            elif len(alpha) == 3:
-                self.__spritesheet.set_colorkey(self.__alpha)
+        # Alpha provided from spritesheet pixel
+        if types.is_coordinate(alpha):
+            try:
+                bg_color = self.__spritesheet.get_at(alpha)
+                self.__spritesheet.set_colorkey(bg_color)
 
                 if self.__verbose:
-                    print(f"Set colorkey to color: {self.__alpha}")
+                    print(f"Set colorkey from pixel {alpha}: {bg_color}")
                 
-                return alpha
+                return (bg_color.r, bg_color.g, bg_color.b)
+            
+            except IndexError:
+                raise ValueError(f"Invalid alpha coordinates {self.__alpha}")
+        
+        # Alpha provided using (r, g, b) value
+        else:
+            self.__spritesheet.set_colorkey(self.__alpha)
+
+            if self.__verbose:
+                print(f"Set colorkey to color: {self.__alpha}")
+            
+            return alpha
     
     def __extract_sprites(self) -> types.SpriteExtraction:
         sheet_size = self.__spritesheet.get_size()
@@ -228,7 +233,7 @@ class Sprite:
         
         sprite_dim = (len(sprites), len(sprites[0]))
         
-        return sprites, sprite_dim, sprite_count
+        return sprite_count, sprite_dim, sprites 
     
     def __transparent_tile(
             self, 

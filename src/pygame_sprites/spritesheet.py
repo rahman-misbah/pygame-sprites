@@ -187,7 +187,7 @@ class SpriteSheet:
                 return (bg_color.r, bg_color.g, bg_color.b)
             
             except IndexError:
-                raise ValueError(f"Invalid alpha coordinates {self.__alpha}")
+                raise ValueError(f"Invalid alpha coordinates {alpha}")
         
         # Alpha provided using (r, g, b) value
         else:

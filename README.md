@@ -35,3 +35,7 @@ sprite = sheet[0, 0]  # Get sprite at row 0, column 0
 ## License
 
 MIT
+
+Copyright (c) 2026 Misbahur Rahman
+
+See [LICENSE](LICENSE) for full license text.

@@ -2,7 +2,7 @@
 sandbox/
 
 # Environment and IDE files
-.vs_code/
+.vscode/
 __pycache__/
 game/
 *.egg-info/

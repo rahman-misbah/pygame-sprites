@@ -1,14 +1,7 @@
 # Folders
-assets/
-png/
-testing/
+sandbox/
 
 # Environment and IDE files
 .vs_code/
 __pycache__/
 game/
-
-
-# Files to test library functions
-game_util.py
-game.py

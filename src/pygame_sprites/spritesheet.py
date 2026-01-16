@@ -5,8 +5,11 @@
 import pygame
 from pathlib import Path
 from typing import Optional, Any, cast
-import _internal._sprite_types as types
 from beartype import beartype
+
+import pygame_sprites.definitions as definitions
+import pygame_sprites._internal.validators as validators
+
 
 
 class SpriteSheet:
@@ -14,10 +17,10 @@ class SpriteSheet:
     def __init__(
             self, 
             sheet_path : str, 
-            tile_size : types.Size, 
+            tile_size : definitions.Size, 
             padding : int = 0, 
             sheet_margin : int = 0, 
-            alpha : Optional[types.Alpha] = None, 
+            alpha : Optional[definitions.Alpha] = None, 
             verbose : bool = False
             ):
         '''
@@ -32,9 +35,9 @@ class SpriteSheet:
         self.__verbose = verbose
 
         self.__spritesheet = self.__load_spritesheet()
-        self.__alpha : Optional[types.RGB] = self.__set_alpha(alpha)
+        self.__alpha : Optional[definitions.RGB] = self.__set_alpha(alpha)
         self.__sprite_count, self.__grid_dim, self.__sprites = self.__extract_sprites()
-        self.__map : types.NamedGroupMap = dict()
+        self.__map : definitions.NamedGroupMap = dict()
     
     
     #   =============== PUBLIC INTERFACE ===============  #
@@ -42,7 +45,7 @@ class SpriteSheet:
     @beartype
     def name_tiles(
             self,
-            index : types.NonStringSpriteIndex,
+            index : definitions.NonStringSpriteIndex,
             name : str
             ) -> None:
         
@@ -50,7 +53,7 @@ class SpriteSheet:
     
     @beartype
     def png(self,
-            sprite : Optional[types.ExportableSprite] = None,
+            sprite : Optional[definitions.ExportableSprite] = None,
             name : str = "sprite",
             path : str = "png"
             ) -> None:
@@ -89,8 +92,8 @@ class SpriteSheet:
     @beartype
     def __getitem__(
             self, 
-            pos : types.SpriteIndex
-            ) -> Optional[types.SpriteFetch]:
+            pos : definitions.SpriteIndex
+            ) -> Optional[definitions.SpriteFetch]:
         if isinstance(pos, int):
             try:
                 return self.__sprites[pos]
@@ -101,20 +104,20 @@ class SpriteSheet:
             # Fetch by key logic
             pass
 
-        if types.is_coordinate(pos):
+        if validators.is_coordinate(pos):
             try:
                 return self.__sprites[pos[0]][pos[1]]
             except IndexError:
                 raise IndexError(f"Index [{pos[0]}, {pos[1]}] out of range")
 
-        if types.is_row_slice(pos):
+        if validators.is_row_slice(pos):
             try:
                 row = self.__sprites[pos[0]]
                 return row[pos[1]]
             except IndexError:
                 raise IndexError(f"Invalid row index {pos[0]}")
 
-        if types.is_column_slice(pos):
+        if validators.is_column_slice(pos):
             try:
                 rows = self.__sprites[pos[0]]
                 result = [row[pos[1]] for row in rows]
@@ -123,7 +126,7 @@ class SpriteSheet:
             except:
                 raise IndexError(f"Invalid column index {pos[1]}")
 
-        if types.is_region(pos):
+        if validators.is_region(pos):
             rows = self.__sprites[pos[0]]
             result = [row[pos[1]] for row in rows]
             
@@ -159,8 +162,8 @@ class SpriteSheet:
 
     def __set_alpha(
             self, 
-            alpha : Optional[types.Alpha]
-            ) -> Optional[types.RGB]:
+            alpha : Optional[definitions.Alpha]
+            ) -> Optional[definitions.RGB]:
         if alpha is None:       # Uses per-pixel alpha
             self.__spritesheet = self.__spritesheet.convert_alpha()
 
@@ -173,7 +176,7 @@ class SpriteSheet:
         self.__spritesheet = self.__spritesheet.convert()
 
         # Alpha provided from spritesheet pixel
-        if types.is_coordinate(alpha):
+        if validators.is_coordinate(alpha):
             try:
                 bg_color = self.__spritesheet.get_at(alpha)
                 self.__spritesheet.set_colorkey(bg_color)
@@ -195,7 +198,7 @@ class SpriteSheet:
             
             return alpha
     
-    def __extract_sprites(self) -> types.SpriteExtraction:
+    def __extract_sprites(self) -> definitions.SpriteExtraction:
         sheet_size = self.__spritesheet.get_size()
         sprite_count : int = 0
         transparent_count : int = 0
@@ -204,10 +207,10 @@ class SpriteSheet:
         rows = (sheet_size[1] - self.__sheet_margin * 2) // (self.__tile_size[1] + 2 * self.__padding)
         tile_rect = pygame.Rect(0, 0, self.__tile_size[0], self.__tile_size[1])
         
-        sprites : types.SpriteGrid = []
+        sprites : definitions.SpriteGrid = []
 
         for i in range(rows):
-            row : types.SpriteGridRow = []
+            row : definitions.SpriteGridRow = []
             sprites.append(row)
 
             for j in range(cols):
@@ -238,7 +241,7 @@ class SpriteSheet:
     def __transparent_tile(
             self, 
             tile : pygame.Surface, 
-            alpha : Optional[types.RGB]
+            alpha : Optional[definitions.RGB]
         ) -> bool:
         tile.lock()
         pixel_array : Optional[pygame.PixelArray] = None
@@ -270,4 +273,3 @@ class SpriteSheet:
                 pixel_array.close()
                 del pixel_array
             tile.unlock()
-        

@@ -13,6 +13,43 @@ import pygame_sprites._internal.validators as validators
 
 
 class SpriteSheet:
+    """Load a spritesheet, slice it into fixed-size tiles, and provide access/export utilities.
+
+    Args:
+        sheet_path (str): Filesystem path to the spritesheet image.
+        tile_size (Size): Tile size as (width, height) in pixels.
+        padding (int): Inner padding in pixels around each tile. Defaults to 0.
+        sheet_margin (int): Outer margin in pixels around the sheet contents. Defaults to 0.
+        alpha (Alpha, optional): Transparency specification. Either a coordinate to sample
+            the colorkey from the sheet, an RGB tuple to use as a colorkey, or None to use
+            per-pixel alpha. Defaults to None.
+        verbose (bool): When True, emit informational messages during loading and extraction.
+            Defaults to False.
+
+    Attributes:
+        __sheet_path (str): Provided sheet_path.
+        __tile_size (Size): Provided tile_size.
+        __padding (int): Provided padding.
+        __sheet_margin (int): Provided sheet_margin.
+        __verbose (bool): Verbosity flag.
+        __spritesheet (pygame.Surface): Loaded pygame surface for the sheet.
+        __alpha (RGB, optional): Effective RGB colorkey or None for per-pixel alpha.
+        __sprites (SpriteGrid): 2D grid of extracted tiles; fully transparent tiles are None.
+        __sprite_count (int): Number of non-transparent tiles extracted.
+        __grid_dim (Size): Number of rows and columns in the extracted grid.
+        __map (NamedGroupMap): Named groups for organizing subsets of tiles.
+
+    Behavior:
+        - Loads and validates the image at sheet_path.
+        - Applies transparency via per-pixel alpha or a colorkey (from coordinates or RGB).
+        - Iterates the sheet using tile_size, padding, and sheet_margin to extract tiles.
+        - Detects fully transparent tiles and stores them as None in the grid.
+        - Supports retrieval by integer index, (row, col) coordinate, row/column/region slices,
+          and named groups. Provides PNG export for individual tiles or groups.
+
+    Raises:
+        ValueError: If the spritesheet cannot be loaded or if provided alpha coordinates are invalid.
+    """
     @beartype
     def __init__(
             self, 

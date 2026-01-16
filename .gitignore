@@ -5,3 +5,4 @@ sandbox/
 .vs_code/
 __pycache__/
 game/
+*.egg-info/

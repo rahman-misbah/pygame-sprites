@@ -31,3 +31,7 @@ sprite = sheet[0, 0]  # Get sprite at row 0, column 0
 - Python 3.8+
 - PyGame 2.0+
 - beartype
+
+## License
+
+MIT
